@@ -7,6 +7,7 @@ from PyQt6.QtGui import QIcon
 from card import MovieCard
 from add_movie import AddMovieDialog
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()

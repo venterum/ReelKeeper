@@ -13,7 +13,7 @@ class AddMovieDialog(QDialog):
         self.poster_path = None
 
     def choose_poster(self):
-        file_name, _ = QFileDialog.getOpenFileName(self, "Выбрать постер", "", "Images (*.png *.jpg *.jpeg)")
+        file_name, _ = QFileDialog.getOpenFileName(self, "Выбрать постер", "", "Обложка (*.png *.jpg *.jpeg)")
         if file_name:
             self.poster_path = file_name
             pixmap = QPixmap(file_name)

@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFrame, QDialog, QDialogButtonBox
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtGui import QPixmap, QPainter, QBrush
 from PyQt6.QtCore import Qt, QSize
 import sqlite3
 
@@ -10,32 +10,31 @@ class MovieCard(QFrame):
         self.setFrameShape(QFrame.Shape.Panel)
         self.setFrameShadow(QFrame.Shadow.Raised)
         self.setLineWidth(2)
-        self.setMaximumSize(16777215, 400) 
-
+        self.setMaximumSize(16777215, 400)
         layout = QHBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
-
+        poster_label = QLabel()
         pixmap = QPixmap()
         pixmap.loadFromData(poster)
-        self.setStyleSheet(f"background-image: url({pixmap.toImage()})") 
-
+        rounded_pixmap = self.get_rounded_pixmap(pixmap, 200, 300, 10)
+        poster_label.setPixmap(rounded_pixmap)
+        layout.addWidget(poster_label)
         v_layout = QVBoxLayout()
 
         # Название
         label_title = QLabel(title)
         label_title.setObjectName("label_title")
-        label_title.setStyleSheet("font-size: 18px; font-weight: bold;")
+        label_title.setStyleSheet("font-size: 24px; font-weight: bold;")
         label_title.setWordWrap(True)
         v_layout.addWidget(label_title)
 
         # Описание
         label_overview = QLabel(overview)
-        label_overview.setStyleSheet("font-size: 12px;")
+        label_overview.setStyleSheet("font-size: 14px;")
         label_overview.setWordWrap(True)
         label_overview.setMaximumHeight(80)
         label_overview.setTextFormat(Qt.TextFormat.PlainText)
-        label_overview.setWordWrap(True)
-        label_overview.setText(label_overview.text()[:100] + "..." if len(label_overview.text()) > 100 else label_overview.text())
+        label_overview.setText(label_overview.text()[:200] + "..." if len(label_overview.text()) > 200 else label_overview.text())
         v_layout.addWidget(label_overview)
 
         buttons_layout = QHBoxLayout()
@@ -52,6 +51,18 @@ class MovieCard(QFrame):
 
         v_layout.addLayout(buttons_layout)
         layout.addLayout(v_layout)
+
+    def get_rounded_pixmap(self, pixmap, width, height, radius):
+        scaled_pixmap = pixmap.scaled(width, height, Qt.AspectRatioMode.KeepAspectRatioByExpanding, Qt.TransformationMode.SmoothTransformation)
+        rounded = QPixmap(width, height)
+        rounded.fill(Qt.GlobalColor.transparent)
+        painter = QPainter(rounded)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        painter.setBrush(QBrush(scaled_pixmap))
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.drawRoundedRect(rounded.rect(), radius, radius)
+        painter.end()
+        return rounded
 
     def delete_card(self):
         title = self.findChild(QLabel, "label_title").text()

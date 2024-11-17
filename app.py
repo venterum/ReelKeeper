@@ -1,8 +1,8 @@
 import sys
 import qdarktheme, pywinstyles
 import sqlite3
-from PyQt6 import uic, QtGui
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QScrollArea, QDialog, QMessageBox
+from PyQt6 import uic
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QScrollArea, QDialog
 from PyQt6.QtGui import QIcon
 from card import MovieCard
 from add_movie import AddMovieDialog
@@ -15,7 +15,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("ReelKeeper")
         self.setWindowIcon(QIcon("icons/film_frames.png"))
 
-        self.settingsButton.clicked.connect(lambda: self.load_ui("ui/settings.ui"))
         self.libButton.clicked.connect(lambda: self.load_ui("ui/library.ui"))
         self.helpButton.clicked.connect(lambda: self.load_ui("ui/info.ui"))
         self.addButton.clicked.connect(self.add_movie)
@@ -37,7 +36,6 @@ class MainWindow(QMainWindow):
 
         uic.loadUi(ui_file, self)
 
-        self.settingsButton.clicked.connect(lambda: self.load_ui("ui/settings.ui"))
         self.libButton.clicked.connect(lambda: self.load_ui("ui/library.ui"))
         self.helpButton.clicked.connect(lambda: self.load_ui("ui/info.ui"))
         self.addButton.clicked.connect(self.add_movie)
@@ -50,43 +48,63 @@ class MainWindow(QMainWindow):
             self.scroll_area = QScrollArea(self)
             self.scroll_area.setWidgetResizable(True)
             self.cardsLayout.addWidget(self.scroll_area)
-
             self.cards_widget = QWidget()
             self.cards_layout = QVBoxLayout(self.cards_widget)
             self.scroll_area.setWidget(self.cards_widget)
+            self.load_cards()
 
+    def add_movie(self):
+        dialog = AddMovieDialog()
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            movie_data = dialog.get_data()
+            conn = sqlite3.connect('data/data.sqlite')
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                INSERT INTO movies (title, overview, poster, type_id, genre_id, year, director, rating, progress) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                movie_data["title"],
+                movie_data["overview"],
+                movie_data["poster"],
+                movie_data["type_id"],
+                movie_data["genre_id"],
+                movie_data["year"],
+                movie_data["director"],
+                0,  # рейтинг
+                0   # прогресс просмотра
+            ))
+
+            conn.commit()
+            conn.close()
             self.load_cards()
 
     def load_cards(self):
         conn = sqlite3.connect('data/data.sqlite')
         cursor = conn.cursor()
-        cursor.execute("SELECT title, overview, poster FROM movies")
+        cursor.execute("""
+            SELECT m.title, m.overview, m.poster, t.type_name
+            FROM movies m
+            JOIN types t ON m.type_id = t.type_id
+        """)
         rows = cursor.fetchall()
         conn.close()
-        for i in reversed(range(self.cards_layout.count())): 
-            self.cards_layout.itemAt(i).widget().setParent(None)
-        for row in rows:
-            title, overview, poster = row
-            card = MovieCard(title, overview, poster)
-            self.cards_layout.addWidget(card)
 
-    def add_movie(self):
-        dialog = AddMovieDialog()
-        if dialog.exec() == QDialog.DialogCode.Accepted:
-            title, overview, poster = dialog.get_data()
-            conn = sqlite3.connect('data/data.sqlite')
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO movies (title, overview, poster) VALUES (?, ?, ?)", (title, overview, poster))
-            conn.commit()
-            conn.close()
-            self.load_cards()
+        for i in reversed(range(self.cards_layout.count())):
+            self.cards_layout.itemAt(i).widget().setParent(None)
+
+        for row in rows:
+            title, overview, poster, type_name = row
+            card = MovieCard(title, overview, poster, type_name)
+            self.cards_layout.insertWidget(0, card)
+            
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyleSheet(qdarktheme.load_stylesheet())
     window = MainWindow()
-    pywinstyles.apply_style(window, "dark")
     dialog = AddMovieDialog()
-    pywinstyles.apply_style(dialog, "dark") 
+    pywinstyles.apply_style(window, "dark")
+    pywinstyles.apply_style(dialog, "dark")
     window.show()
     sys.exit(app.exec())

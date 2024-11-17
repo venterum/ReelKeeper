@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>451</height>
+    <height>526</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="labelName">
      <property name="text">
       <string>Название:</string>
      </property>
@@ -25,14 +25,24 @@
     <widget class="QLineEdit" name="movieTitle">
      <property name="minimumSize">
       <size>
-       <width>75</width>
-       <height>50</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="labelType">
+     <property name="text">
+      <string>Тип:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="comboBoxTypes"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelOverview">
      <property name="text">
       <string>Описание:</string>
      </property>
@@ -40,6 +50,53 @@
    </item>
    <item>
     <widget class="QTextEdit" name="movieOverview"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Режиссёр:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="lineEdit"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelGenre">
+     <property name="text">
+      <string>Жанр:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="comboBoxGenres">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выберите жанр из списка...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelYear">
+     <property name="text">
+      <string>Год выпуска:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSpinBox" name="spinBoxYear">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выберите год выпсука...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="whatsThis">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Выберите год выпсука...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="minimum">
+      <number>1895</number>
+     </property>
+     <property name="maximum">
+      <number>2100</number>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QPushButton" name="choosePosterButton">

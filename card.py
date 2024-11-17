@@ -1,25 +1,33 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFrame, QDialog, QDialogButtonBox
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFrame, QDialog, QBoxLayout
 from PyQt6.QtGui import QPixmap, QPainter, QBrush
 from PyQt6.QtCore import Qt, QSize
 import sqlite3
 
 
 class MovieCard(QFrame):
-    def __init__(self, title, overview, poster, parent=None):
+    def __init__(self, title, overview, poster, content_type, parent=None):
         super().__init__(parent)
         self.setFrameShape(QFrame.Shape.Panel)
         self.setFrameShadow(QFrame.Shadow.Raised)
         self.setLineWidth(2)
         self.setMaximumSize(16777215, 400)
+
+        # Основной лэйаут
         layout = QHBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
+
+        # Постер
         poster_label = QLabel()
-        pixmap = QPixmap()
-        pixmap.loadFromData(poster)
-        rounded_pixmap = self.get_rounded_pixmap(pixmap, 200, 300, 10)
-        poster_label.setPixmap(rounded_pixmap)
-        layout.addWidget(poster_label)
+        if poster:
+            pixmap = QPixmap()
+            pixmap.loadFromData(poster)
+            rounded_pixmap = self.get_rounded_pixmap(pixmap, 200, 300, 10)
+            poster_label.setPixmap(rounded_pixmap)
+        layout.addWidget(poster_label, alignment=Qt.AlignmentFlag.AlignLeft)
+
+        # Текст и кнопки
         v_layout = QVBoxLayout()
+
 
         # Название
         label_title = QLabel(title)
@@ -28,21 +36,32 @@ class MovieCard(QFrame):
         label_title.setWordWrap(True)
         v_layout.addWidget(label_title)
 
+        # Тип контента
+        label_type = QLabel(content_type)
+        label_type.setStyleSheet("font-size: 16px; font-style: italic; color: gray;")
+        v_layout.addWidget(label_type)
+
         # Описание
         label_overview = QLabel(overview)
         label_overview.setStyleSheet("font-size: 14px;")
         label_overview.setWordWrap(True)
         label_overview.setMaximumHeight(80)
         label_overview.setTextFormat(Qt.TextFormat.PlainText)
-        label_overview.setText(label_overview.text()[:200] + "..." if len(label_overview.text()) > 200 else label_overview.text())
+        label_overview.setText(
+            label_overview.text()[:300] + "..." if len(label_overview.text()) > 300 else label_overview.text()
+        )
         v_layout.addWidget(label_overview)
 
+        # Кнопки
         buttons_layout = QHBoxLayout()
 
+        # Подробнее
         more_button = QPushButton("Подробнее")
         more_button.setMinimumHeight(40)
+        more_button.setMinimumWidth(500)
         buttons_layout.addWidget(more_button)
 
+        # Удаление
         delete_button = QPushButton("🗑️")
         delete_button.setMinimumHeight(40)
         delete_button.setMaximumWidth(75)
@@ -51,6 +70,7 @@ class MovieCard(QFrame):
 
         v_layout.addLayout(buttons_layout)
         layout.addLayout(v_layout)
+        layout.addStretch(1)
 
     def get_rounded_pixmap(self, pixmap, width, height, radius):
         scaled_pixmap = pixmap.scaled(width, height, Qt.AspectRatioMode.KeepAspectRatioByExpanding, Qt.TransformationMode.SmoothTransformation)
@@ -69,12 +89,23 @@ class MovieCard(QFrame):
         confirm = QDialog(self)
         confirm.setWindowTitle("Подтверждение удаления")
         question_label = QLabel(f"Вы уверены, что хотите удалить {title}?", confirm)
-        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Yes | QDialogButtonBox.StandardButton.No, confirm)
-        buttons.accepted.connect(confirm.accept)
-        buttons.rejected.connect(confirm.reject)
+        buttons_layout = QHBoxLayout()
+
+        yes_button = QPushButton("Да")
+        yes_button.setMinimumHeight(40)
+        buttons_layout.addWidget(yes_button)
+
+        no_button = QPushButton("Нет")
+        no_button.setMinimumHeight(40)
+        buttons_layout.addWidget(no_button)
+
+        yes_button.clicked.connect(confirm.accept)
+        no_button.clicked.connect(confirm.reject)
+
         confirm_layout = QVBoxLayout(confirm)
         confirm_layout.addWidget(question_label)
-        confirm_layout.addWidget(buttons)
+        confirm_layout.addLayout(buttons_layout)
+
         if confirm.exec() == QDialog.DialogCode.Accepted:
             conn = sqlite3.connect('data/data.sqlite')
             cursor = conn.cursor()

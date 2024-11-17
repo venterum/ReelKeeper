@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
         conn = sqlite3.connect('data/data.sqlite')
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT m.title, m.overview, m.poster, t.type_name
+            SELECT m.title, m.overview, m.poster, t.type_name, m.progress
             FROM movies m
             JOIN types t ON m.type_id = t.type_id
         """)
@@ -94,8 +94,8 @@ class MainWindow(QMainWindow):
             self.cards_layout.itemAt(i).widget().setParent(None)
 
         for row in rows:
-            title, overview, poster, type_name = row
-            card = MovieCard(title, overview, poster, type_name)
+            title, overview, poster, type_name, progress = row
+            card = MovieCard(title, overview, poster, type_name, progress)
             self.cards_layout.insertWidget(0, card)
             
 

@@ -1,11 +1,12 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFrame, QDialog, QBoxLayout
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFrame, QDialog, QProgressBar
 from PyQt6.QtGui import QPixmap, QPainter, QBrush
-from PyQt6.QtCore import Qt, QSize
+from PyQt6.QtCore import Qt
 import sqlite3
+from details import MovieDetailsDialog
 
 
 class MovieCard(QFrame):
-    def __init__(self, title, overview, poster, content_type, parent=None):
+    def __init__(self, title, overview, poster, content_type, progress, parent=None):
         super().__init__(parent)
         self.setFrameShape(QFrame.Shape.Panel)
         self.setFrameShadow(QFrame.Shadow.Raised)
@@ -28,6 +29,10 @@ class MovieCard(QFrame):
         # Текст и кнопки
         v_layout = QVBoxLayout()
 
+        # Тип контента
+        label_type = QLabel(content_type)
+        label_type.setStyleSheet("font-size: 16px; font-style: italic; color: gray;")
+        v_layout.addWidget(label_type)
 
         # Название
         label_title = QLabel(title)
@@ -35,11 +40,6 @@ class MovieCard(QFrame):
         label_title.setStyleSheet("font-size: 24px; font-weight: bold;")
         label_title.setWordWrap(True)
         v_layout.addWidget(label_title)
-
-        # Тип контента
-        label_type = QLabel(content_type)
-        label_type.setStyleSheet("font-size: 16px; font-style: italic; color: gray;")
-        v_layout.addWidget(label_type)
 
         # Описание
         label_overview = QLabel(overview)
@@ -52,6 +52,13 @@ class MovieCard(QFrame):
         )
         v_layout.addWidget(label_overview)
 
+        progress_bar = QProgressBar()
+        progress_bar.setValue(progress)
+        progress_bar.setTextVisible(True)
+        progress_bar.setMaximumWidth(580)
+
+        v_layout.addWidget(progress_bar)
+
         # Кнопки
         buttons_layout = QHBoxLayout()
 
@@ -59,11 +66,16 @@ class MovieCard(QFrame):
         more_button = QPushButton("Подробнее")
         more_button.setMinimumHeight(40)
         more_button.setMinimumWidth(500)
+        more_button.setMaximumHeight(40)
+        more_button.setMaximumWidth(500)
+        more_button.clicked.connect(self.show_details)
         buttons_layout.addWidget(more_button)
 
         # Удаление
         delete_button = QPushButton("🗑️")
         delete_button.setMinimumHeight(40)
+        delete_button.setMaximumHeight(40)
+        delete_button.setMinimumWidth(75)
         delete_button.setMaximumWidth(75)
         delete_button.clicked.connect(self.delete_card)
         buttons_layout.addWidget(delete_button)
@@ -71,6 +83,11 @@ class MovieCard(QFrame):
         v_layout.addLayout(buttons_layout)
         layout.addLayout(v_layout)
         layout.addStretch(1)
+
+    def show_details(self):
+        title = self.findChild(QLabel, "label_title").text()
+        details_dialog = MovieDetailsDialog(title)
+        details_dialog.exec()
 
     def get_rounded_pixmap(self, pixmap, width, height, radius):
         scaled_pixmap = pixmap.scaled(width, height, Qt.AspectRatioMode.KeepAspectRatioByExpanding, Qt.TransformationMode.SmoothTransformation)

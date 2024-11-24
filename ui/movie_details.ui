@@ -73,7 +73,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="ratingComboBox"/>
+        <widget class="QDoubleSpinBox" name="ratingSpin"/>
        </item>
        <item>
         <widget class="QLabel" name="label">
@@ -111,6 +111,19 @@
        </item>
        <item>
         <widget class="QProgressBar" name="progressBar"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="progressButton">
+         <property name="minimumSize">
+          <size>
+           <width>33</width>
+           <height>33</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Обновить прогресс просмотра</string>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="buttonsLayout">

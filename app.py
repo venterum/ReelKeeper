@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
                 movie_data["year"],
                 movie_data["director"],
                 0,  # рейтинг
-                0   # прогресс просмотра
+                0   # прогресс
             ))
 
             conn.commit()

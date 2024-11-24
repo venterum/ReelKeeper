@@ -13,11 +13,9 @@ class MovieCard(QFrame):
         self.setLineWidth(2)
         self.setMaximumSize(16777215, 400)
 
-        # Основной лэйаут
         layout = QHBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
 
-        # Постер
         poster_label = QLabel()
         if poster:
             pixmap = QPixmap()
@@ -26,22 +24,18 @@ class MovieCard(QFrame):
             poster_label.setPixmap(rounded_pixmap)
         layout.addWidget(poster_label, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        # Текст и кнопки
         v_layout = QVBoxLayout()
 
-        # Тип контента
         label_type = QLabel(content_type)
         label_type.setStyleSheet("font-size: 16px; font-style: italic; color: gray;")
         v_layout.addWidget(label_type)
 
-        # Название
         label_title = QLabel(title)
         label_title.setObjectName("label_title")
         label_title.setStyleSheet("font-size: 24px; font-weight: bold;")
         label_title.setWordWrap(True)
         v_layout.addWidget(label_title)
 
-        # Описание
         label_overview = QLabel(overview)
         label_overview.setStyleSheet("font-size: 14px;")
         label_overview.setWordWrap(True)
@@ -59,10 +53,8 @@ class MovieCard(QFrame):
 
         v_layout.addWidget(progress_bar)
 
-        # Кнопки
         buttons_layout = QHBoxLayout()
 
-        # Подробнее
         more_button = QPushButton("Подробнее")
         more_button.setMinimumHeight(40)
         more_button.setMinimumWidth(500)
@@ -71,7 +63,6 @@ class MovieCard(QFrame):
         more_button.clicked.connect(self.show_details)
         buttons_layout.addWidget(more_button)
 
-        # Удаление
         delete_button = QPushButton("🗑️")
         delete_button.setMinimumHeight(40)
         delete_button.setMaximumHeight(40)

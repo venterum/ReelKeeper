@@ -14,7 +14,6 @@ class MovieDetailsDialog(QDialog):
         self.load_data()
         self.populate_fields()
 
-        # Подключение кнопок
         self.saveButton.clicked.connect(self.save_changes)
         self.progressButton.clicked.connect(self.update_progress)
         self.closeButton.clicked.connect(self.reject)
@@ -45,36 +44,19 @@ class MovieDetailsDialog(QDialog):
         conn.close()
 
     def populate_fields(self):
-        # Постер
-        if self.data[2]:  # poster
+        if self.data[2]:
             pixmap = QPixmap()
             pixmap.loadFromData(self.data[2])
             self.posterLabel.setPixmap(self.get_rounded_pixmap(pixmap, 300, 450, 10))
-
-        # Название
         self.titleEdit.setText(self.data[0])
-
-        # Описание
         self.overviewEdit.setPlainText(self.data[1])
-
-        # Рейтинг
         self.ratingSpin.setRange(0.0, 10.0)
         self.ratingSpin.setSingleStep(0.1)
         self.ratingSpin.setValue(self.data[7])
-
-        # Прогресс
         self.progressBar.setValue(self.data[8])
-
-        # Тип
         self.populate_combobox(self.typeCombo, "types", self.data[3])
-
-        # Жанр
         self.populate_combobox(self.genreCombo, "genres", self.data[4])
-
-        # Год
         self.yearSpin.setValue(self.data[5])
-
-        # Режиссёр
         self.directorEdit.setText(self.data[6])
 
     def populate_combobox(self, combobox, table, selected_item):
@@ -95,7 +77,6 @@ class MovieDetailsDialog(QDialog):
         year = self.yearSpin.value()
         director = self.directorEdit.text()
         rating = self.ratingSpin.value()
-
         try:
             conn = sqlite3.connect('data/data.sqlite')
             cursor = conn.cursor()
@@ -116,13 +97,11 @@ class MovieDetailsDialog(QDialog):
         dialog.setWindowTitle("Изменить прогресс")
         layout = QVBoxLayout(dialog)
 
-        # Радиокнопки
         episodes_button = QRadioButton("Количество серий")
         minutes_button = QRadioButton("Количество минут")
         layout.addWidget(episodes_button)
         layout.addWidget(minutes_button)
 
-        # Поля ввода для серий
         episodes_layout = QHBoxLayout()
         episodes_label = QLabel("Серий просмотрено:")
         episodes_spin = QSpinBox()
@@ -139,7 +118,6 @@ class MovieDetailsDialog(QDialog):
         total_episodes_layout.addWidget(total_episodes_label)
         total_episodes_layout.addWidget(total_episodes_spin)
 
-        # Поля ввода для минут
         minutes_layout = QVBoxLayout()
         watched_minutes_layout = QHBoxLayout()
         total_minutes_layout = QHBoxLayout()
@@ -165,7 +143,6 @@ class MovieDetailsDialog(QDialog):
         layout.addLayout(total_episodes_layout)
         layout.addLayout(minutes_layout)
 
-        # Обработчики для радио-кнопок
         def enable_episode_fields():
             episodes_spin.setEnabled(True)
             total_episodes_spin.setEnabled(True)
@@ -181,7 +158,6 @@ class MovieDetailsDialog(QDialog):
         episodes_button.toggled.connect(enable_episode_fields)
         minutes_button.toggled.connect(enable_minute_fields)
 
-        # Кнопки подтверждения
         button_box = QDialogButtonBox()
         ok_button = QPushButton("Сохранить")
         cancel_button = QPushButton("Отмена")
@@ -191,7 +167,6 @@ class MovieDetailsDialog(QDialog):
         button_box.addButton(cancel_button, QDialogButtonBox.ButtonRole.RejectRole)
         layout.addWidget(button_box)
 
-        # Подтверждение или отмена
         ok_button.clicked.connect(dialog.accept)
         cancel_button.clicked.connect(dialog.reject)
 

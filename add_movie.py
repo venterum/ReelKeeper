@@ -13,21 +13,17 @@ class AddMovieDialog(QDialog):
         self.addButton.clicked.connect(self.accept)
         self.cancelButton.clicked.connect(self.reject)
         self.poster_path = None
-
-        # Заполнение выпадающих списков
         self.load_combobox_data()
 
     def load_combobox_data(self):
         conn = sqlite3.connect('data/data.sqlite')
         cursor = conn.cursor()
 
-        # Заполнение типов
         cursor.execute("SELECT type_id, type_name FROM types")
         types = cursor.fetchall()
         for type_id, type_name in types:
             self.comboBoxTypes.addItem(type_name, type_id)
 
-        # Заполнение жанров
         cursor.execute("SELECT genre_id, genre_name FROM genres")
         genres = cursor.fetchall()
         for genre_id, genre_name in genres:

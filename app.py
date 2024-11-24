@@ -102,6 +102,7 @@ class MainWindow(QMainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyleSheet(qdarktheme.load_stylesheet())
+    app.setWindowIcon(QIcon("icons/film_frames.png"))
     window = MainWindow()
     dialog = AddMovieDialog()
     pywinstyles.apply_style(window, "dark")

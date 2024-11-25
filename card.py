@@ -1,12 +1,17 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, QFrame, QDialog, QProgressBar
-from PyQt6.QtGui import QPixmap, QPainter, QBrush
-from PyQt6.QtCore import Qt
 import sqlite3
+
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap, QPainter, QBrush
+from PyQt6.QtWidgets import (
+    QWidget, QHBoxLayout, QVBoxLayout, QLabel, QPushButton, 
+    QFrame, QDialog, QProgressBar
+)
+
 from details import MovieDetailsDialog
 
 
 class MovieCard(QFrame):
-    def __init__(self, title, overview, poster, content_type, progress, parent=None):
+    def __init__(self, title, overview, poster, content_type, year, progress, rating, parent=None):
         super().__init__(parent)
         self.setFrameShape(QFrame.Shape.Panel)
         self.setFrameShadow(QFrame.Shadow.Raised)
@@ -30,11 +35,16 @@ class MovieCard(QFrame):
         label_type.setStyleSheet("font-size: 16px; font-style: italic; color: gray;")
         v_layout.addWidget(label_type)
 
-        label_title = QLabel(title)
+        label_title = QLabel(f"{title}, {year}")
         label_title.setObjectName("label_title")
-        label_title.setStyleSheet("font-size: 24px; font-weight: bold;")
+        label_title.setStyleSheet("font-size: 26px; font-weight: bold;")
         label_title.setWordWrap(True)
         v_layout.addWidget(label_title)
+
+        if rating > 0:
+            label_rating = QLabel(f"⭐ {rating:.1f}/10")
+            label_rating.setStyleSheet("font-size: 16px; color: orange;")
+            v_layout.addWidget(label_rating)
 
         label_overview = QLabel(overview)
         label_overview.setStyleSheet("font-size: 14px;")

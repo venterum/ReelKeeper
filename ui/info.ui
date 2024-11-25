@@ -47,7 +47,6 @@
              </property>
              <property name="font">
               <font>
-               <family>Google Sans</family>
                <pointsize>12</pointsize>
               </font>
              </property>
@@ -60,12 +59,13 @@
             <widget class="QLabel" name="reelkeeperLogo">
              <property name="font">
               <font>
-               <family>Google Sans Medium</family>
                <pointsize>28</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
-              <string> 🎞️ReelKeeper</string>
+              <string> 🎞️ReelKeeper®</string>
              </property>
             </widget>
            </item>
@@ -85,7 +85,6 @@
              </property>
              <property name="font">
               <font>
-               <family>Google Sans</family>
                <pointsize>12</pointsize>
               </font>
              </property>
@@ -120,7 +119,6 @@
             <widget class="QLabel" name="infoLogo">
              <property name="font">
               <font>
-               <family>Google Sans Medium</family>
                <pointsize>48</pointsize>
               </font>
              </property>
@@ -128,17 +126,12 @@
               <string extracomment="ReelKeeper - это удобное приложение, которое поможет вам организовать информацию о просмотренных фильмах и сериалах."/>
              </property>
              <property name="text">
-              <string>🎞️ReelKeeper</string>
+              <string>🎞️ReelKeeper®</string>
              </property>
             </widget>
            </item>
            <item alignment="Qt::AlignHCenter|Qt::AlignTop">
             <widget class="QLabel" name="label">
-             <property name="font">
-              <font>
-               <family>Google Sans Medium</family>
-              </font>
-             </property>
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;ReelKeeper - это удобное приложение, которое поможет вам&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;организовать информацию о просмотренных фильмах и сериалах.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Создатель: Evgenij Fisko&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/venterum/ReelKeeper&quot;&gt;&lt;span style=&quot; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;Репозиторий ReelKeeper на GitHub&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>

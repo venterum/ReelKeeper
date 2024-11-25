@@ -1,9 +1,15 @@
 import sys
-import qdarktheme, pywinstyles
 import sqlite3
+import os
+
+import qdarktheme
+import pywinstyles
 from PyQt6 import uic
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QScrollArea, QDialog
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QIcon, QFontDatabase, QFont
+from PyQt6.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QScrollArea, QDialog
+)
+
 from card import MovieCard
 from add_movie import AddMovieDialog
 
@@ -83,7 +89,7 @@ class MainWindow(QMainWindow):
         conn = sqlite3.connect('data/data.sqlite')
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT m.title, m.overview, m.poster, t.type_name, m.progress
+            SELECT m.title, m.overview, m.poster, t.type_name, m.year, m.progress, m.rating
             FROM movies m
             JOIN types t ON m.type_id = t.type_id
         """)
@@ -94,18 +100,27 @@ class MainWindow(QMainWindow):
             self.cards_layout.itemAt(i).widget().setParent(None)
 
         for row in rows:
-            title, overview, poster, type_name, progress = row
-            card = MovieCard(title, overview, poster, type_name, progress)
+            title, overview, poster, type_name, year, progress, rating = row
+            card = MovieCard(title, overview, poster, type_name, year, progress, rating)
             self.cards_layout.insertWidget(0, card)
-            
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    font_path = os.path.join("fonts", "font.ttf")
+    font_id = QFontDatabase.addApplicationFont(font_path)
+    if font_id == -1:
+        print("Не удалось загрузить шрифт")
+    else:
+        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+        app.setFont(QFont(font_family))
     app.setStyleSheet(qdarktheme.load_stylesheet())
     app.setWindowIcon(QIcon("icons/film_frames.png"))
+
     window = MainWindow()
     dialog = AddMovieDialog()
     pywinstyles.apply_style(window, "dark")
     pywinstyles.apply_style(dialog, "dark")
+
     window.show()
     sys.exit(app.exec())

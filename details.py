@@ -1,15 +1,19 @@
-from PyQt6.QtWidgets import QDialog, QMessageBox, QRadioButton, QSpinBox, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QDialogButtonBox
-from PyQt6.QtGui import QPixmap, QPainter, QBrush
-from PyQt6.QtCore import Qt
-from PyQt6 import uic
 import sqlite3
+
+from PyQt6 import uic
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPixmap, QPainter, QBrush
+from PyQt6.QtWidgets import (
+    QDialog, QMessageBox, QRadioButton, QSpinBox, QVBoxLayout, 
+    QHBoxLayout, QLabel, QPushButton, QDialogButtonBox
+)
 
 
 class MovieDetailsDialog(QDialog):
     def __init__(self, title):
         super().__init__()
         uic.loadUi("ui/movie_details.ui", self)
-        self.title = title
+        self.title = title[:-6]
         self.data = None
         self.load_data()
         self.populate_fields()

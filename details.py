@@ -197,6 +197,6 @@ class MovieDetailsDialog(QDialog):
                 conn.commit()
                 conn.close()
                 self.progressBar.setValue(progress)
-                QMessageBox.information(self, "Успех", "Прогресс успешно обновлён!")
+                QMessageBox.information(self, "Успех", "Прогресс обновлён!")
             except Exception as e:
                 QMessageBox.critical(self, "Ошибка", f"Не удалось обновить прогресс: {str(e)}")

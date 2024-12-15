@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MovieDetailsDialog</class>
+ <widget class="QDialog" name="MovieDetailsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>463</width>
+    <height>415</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Информация</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="checkBoxType">
+         <property name="text">
+          <string>Тип:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="typeCombo"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxGenre">
+         <property name="text">
+          <string>Жанр:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="genreCombo"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxRating">
+         <property name="text">
+          <string>Рейтинг: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ratingLabel">
+         <property name="text">
+          <string>Рейтинг: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="ratingSpin"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxYears">
+         <property name="text">
+          <string>Годы (с какого по какой):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="yearFromSpin">
+         <property name="minimum">
+          <number>1895</number>
+         </property>
+         <property name="maximum">
+          <number>2100</number>
+         </property>
+         <property name="value">
+          <number>1895</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="yearUpToSpin">
+         <property name="minimum">
+          <number>1895</number>
+         </property>
+         <property name="maximum">
+          <number>2100</number>
+         </property>
+         <property name="value">
+          <number>2010</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxProgress">
+         <property name="text">
+          <string>Прогресс:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinProgressFrom"/>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinProgressUpTo">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="buttonsLayout">
+         <item>
+          <widget class="QPushButton" name="saveButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>75</width>
+             <height>75</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Подтвердить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="closeButton">
+           <property name="minimumSize">
+            <size>
+             <width>75</width>
+             <height>75</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Закрыть</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

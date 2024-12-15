@@ -14,6 +14,7 @@ from PyQt6.QtWidgets import (
 
 from card import MovieCard
 from add_movie import AddMovieDialog
+from filter import FilterDialog
 
 
 class MainWindow(QMainWindow):
@@ -31,6 +32,8 @@ class MainWindow(QMainWindow):
         self.libButton.clicked.connect(lambda: self.load_ui("ui/library.ui"))
         self.helpButton.clicked.connect(lambda: self.load_ui("ui/info.ui"))
         self.addButton.clicked.connect(self.add_movie)
+        self.filterButton.clicked.connect(self.open_filter_dialog)
+        self.queryLine.textChanged.connect(self.apply_search)
 
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setWidgetResizable(True)
@@ -40,6 +43,7 @@ class MainWindow(QMainWindow):
         self.cards_layout = QVBoxLayout(self.cards_widget)
         self.scroll_area.setWidget(self.cards_widget)
 
+        self.active_filters = {}
         self.load_cards()
 
     def load_ui(self, ui_file):
@@ -63,6 +67,8 @@ class MainWindow(QMainWindow):
 
         if ui_file == "ui/library.ui":
             self.addButton.clicked.connect(self.add_movie)
+            self.filterButton.clicked.connect(self.open_filter_dialog)
+            self.queryLine.textChanged.connect(self.apply_search)
             self.scroll_area = QScrollArea(self)
             self.scroll_area.setWidgetResizable(True)
             self.cardsLayout.addWidget(self.scroll_area)
@@ -109,14 +115,38 @@ class MainWindow(QMainWindow):
             conn.close()
             self.load_cards()
 
-    def load_cards(self):
+    def load_cards(self, search_query="", filters=None):
         conn = sqlite3.connect('data/data.sqlite')
         cursor = conn.cursor()
-        cursor.execute("""
+        query = """
             SELECT m.title, m.overview, m.poster, t.type_name, m.year, m.progress, m.rating
             FROM movies m
             JOIN types t ON m.type_id = t.type_id
-        """)
+        """
+        conditions = []
+        params = []
+
+        if search_query:
+            conditions.append("(m.title LIKE ? OR m.overview LIKE ? OR m.year LIKE ?)")
+            params.extend([f"%{search_query}%"] * 3)
+        if filters:
+            if "genre_id" in filters:
+                conditions.append("m.genre_id = ?")
+                params.append(filters["genre_id"])
+            if "type_id" in filters:
+                conditions.append("m.type_id = ?")
+                params.append(filters["type_id"])
+            if "year" in filters:
+                conditions.append("m.year = ?")
+                params.append(filters["year"])
+            if "rating" in filters:
+                conditions.append("m.rating >= ?")
+                params.append(filters["rating"])
+
+        if conditions:
+            query += " WHERE " + " AND ".join(conditions)
+
+        cursor.execute(query, params)
         rows = cursor.fetchall()
         conn.close()
 
@@ -127,6 +157,16 @@ class MainWindow(QMainWindow):
             title, overview, poster, type_name, year, progress, rating = row
             card = MovieCard(title, overview, poster, type_name, year, progress, rating)
             self.cards_layout.insertWidget(0, card)
+
+    def apply_search(self):
+        search_query = self.queryLine.text().strip()
+        self.load_cards(search_query=search_query, filters=self.active_filters)
+
+    def open_filter_dialog(self):
+        dialog = FilterDialog(self)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            self.active_filters = dialog.get_filters()
+            self.load_cards(filters=self.active_filters)
 
 
 if __name__ == '__main__':

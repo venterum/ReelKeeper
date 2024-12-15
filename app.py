@@ -56,13 +56,13 @@ class MainWindow(QMainWindow):
 
         self.libButton.clicked.connect(lambda: self.load_ui("ui/library.ui"))
         self.helpButton.clicked.connect(lambda: self.load_ui("ui/info.ui"))
-        self.addButton.clicked.connect(self.add_movie)
 
         self.resize(size)
         self.setWindowIcon(icon)
         self.setWindowTitle(title)
 
         if ui_file == "ui/library.ui":
+            self.addButton.clicked.connect(self.add_movie)
             self.scroll_area = QScrollArea(self)
             self.scroll_area.setWidgetResizable(True)
             self.cardsLayout.addWidget(self.scroll_area)

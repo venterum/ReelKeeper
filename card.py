@@ -127,7 +127,7 @@ class MovieCard(QFrame):
         if confirm.exec() == QDialog.DialogCode.Accepted:
             conn = sqlite3.connect('data/data.sqlite')
             cursor = conn.cursor()
-            cursor.execute("DELETE FROM movies WHERE title=?", (title,))
+            cursor.execute("DELETE FROM movies WHERE title=?", (title[:-6],))
             conn.commit()
             conn.close()
             self.setParent(None)

@@ -66,6 +66,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(title)
 
         if ui_file == "ui/library.ui":
+            self.updateButton.clicked.connect(lambda: self.load_ui("ui/library.ui"))
             self.addButton.clicked.connect(self.add_movie)
             self.filterButton.clicked.connect(self.open_filter_dialog)
             self.queryLine.textChanged.connect(self.apply_search)

@@ -171,13 +171,24 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    font_path = os.path.join("fonts", "font.ttf")
-    font_id = QFontDatabase.addApplicationFont(font_path)
-    if font_id == -1:
-        print("Не удалось загрузить шрифт")
-    else:
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
-        app.setFont(QFont(font_family))
+    font_files = [
+        "fonts/Jost-Bold.ttf",
+        "fonts/Jost-BoldItalic.ttf",
+        "fonts/Jost-Italic.ttf",
+        "fonts/Jost-Medium.ttf",
+        "fonts/Jost-MediumItalic.ttf",
+        "fonts/Jost-Regular.ttf",
+    ]
+    
+    for font_file in font_files:
+        font_path = os.path.join(font_file)
+        font_id = QFontDatabase.addApplicationFont(font_path)
+        if font_id == -1:
+            print(f"Не удалось загрузить шрифт {font_file}")
+        else:
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+            app.setFont(QFont(font_family))
+    
     app.setStyleSheet(qdarktheme.load_stylesheet())
     app.setWindowIcon(QIcon("icons/film_frames.png"))
 

@@ -12,6 +12,7 @@ class FilterDialog(QDialog):
         self.typeCombo.setEnabled(False)
         self.genreCombo.setEnabled(False)
         self.ratingSpin.setEnabled(False)
+        self.ratingSpinTo.setEnabled(False)
         self.yearFromSpin.setEnabled(False)
         self.yearUpToSpin.setEnabled(False)
         self.spinProgressFrom.setEnabled(False)
@@ -38,7 +39,9 @@ class FilterDialog(QDialog):
         self.genreCombo.setEnabled(self.checkBoxGenre.isChecked())
 
     def toggle_rating(self):
-        self.ratingSpin.setEnabled(self.checkBoxRating.isChecked())
+        enabled = self.checkBoxRating.isChecked()
+        self.ratingSpin.setEnabled(enabled)
+        self.ratingSpinTo.setEnabled(enabled)
 
     def toggle_years(self):
         enabled = self.checkBoxYears.isChecked()
@@ -78,7 +81,10 @@ class FilterDialog(QDialog):
                 self.selected_filters["genre_id"] = selected_id
 
         if self.checkBoxRating.isChecked():
-            self.selected_filters["rating"] = self.ratingSpin.value()
+            self.selected_filters["rating"] = (
+                self.ratingSpin.value(),
+                self.ratingSpinTo.value()
+            )
 
         if self.checkBoxYears.isChecked():
             self.selected_filters["years"] = (

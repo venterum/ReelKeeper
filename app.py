@@ -136,12 +136,18 @@ class MainWindow(QMainWindow):
             if "type_id" in filters:
                 conditions.append("m.type_id = ?")
                 params.append(filters["type_id"])
-            if "year" in filters:
-                conditions.append("m.year = ?")
-                params.append(filters["year"])
+            if "years" in filters:
+                year_from, year_to = filters["years"]
+                conditions.append("m.year BETWEEN ? AND ?")
+                params.extend([year_from, year_to])
             if "rating" in filters:
-                conditions.append("m.rating >= ?")
-                params.append(filters["rating"])
+                rating_from, rating_to = filters["rating"]
+                conditions.append("m.rating BETWEEN ? AND ?")
+                params.extend([rating_from, rating_to])
+            if "progress" in filters:
+                progress_from, progress_to = filters["progress"]
+                conditions.append("m.progress BETWEEN ? AND ?")
+                params.extend([progress_from, progress_to])
 
         if conditions:
             query += " WHERE " + " AND ".join(conditions)

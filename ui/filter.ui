@@ -6,279 +6,172 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>600</height>
+    <width>463</width>
+    <height>415</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Фильтры</string>
   </property>
-  <property name="styleSheet">
-   <string>
-    QDialog {
-      padding: 20px;
-    }
-    QCheckBox {
-      font-size: 14px;
-      padding: 5px;
-    }
-    QLabel {
-      font-size: 12px;
-      color: gray;
-    }
-    QPushButton {
-      padding: 8px;
-      min-width: 100px;
-    }
-    QComboBox, QSpinBox, QDoubleSpinBox {
-      padding: 5px;
-      min-height: 25px;
-    }
-   </string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>15</number>
-   </property>
    <item>
-    <widget class="QGroupBox" name="typeGroup">
-     <property name="title">
-      <string>Тип контента</string>
-     </property>
-     <layout class="QVBoxLayout" name="typeLayout">
-      <item>
-       <widget class="QCheckBox" name="checkBoxType">
-        <property name="text">
-         <string>Фильтровать по типу</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="typeCombo"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   
-   <item>
-    <widget class="QGroupBox" name="genreGroup">
-     <property name="title">
-      <string>Жанр</string>
-     </property>
-     <layout class="QVBoxLayout" name="genreLayout">
-      <item>
-       <widget class="QCheckBox" name="checkBoxGenre">
-        <property name="text">
-         <string>Фильтровать по жанру</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="genreCombo"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-
-   <item>
-    <widget class="QGroupBox" name="ratingGroup">
-     <property name="title">
-      <string>Рейтинг</string>
-     </property>
-     <layout class="QVBoxLayout" name="ratingLayout">
-      <item>
-       <widget class="QCheckBox" name="checkBoxRating">
-        <property name="text">
-         <string>Фильтровать по рейтингу</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="ratingRangeLayout">
-        <item>
-         <widget class="QLabel" name="ratingLabel">
-          <property name="text">
-           <string>От:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDoubleSpinBox" name="ratingSpin">
-          <property name="maximum">
-           <double>10.0</double>
-          </property>
-          <property name="singleStep">
-           <double>0.1</double>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="ratingLabelTo">
-          <property name="text">
-           <string>До:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDoubleSpinBox" name="ratingSpinTo">
-          <property name="maximum">
-           <double>10.0</double>
-          </property>
-          <property name="value">
-           <double>10.0</double>
-          </property>
-          <property name="singleStep">
-           <double>0.1</double>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-
-   <item>
-    <widget class="QGroupBox" name="yearsGroup">
-     <property name="title">
-      <string>Год выпуска</string>
-     </property>
-     <layout class="QVBoxLayout" name="yearsLayout">
-      <item>
-       <widget class="QCheckBox" name="checkBoxYears">
-        <property name="text">
-         <string>Фильтровать по году</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="yearsRangeLayout">
-        <item>
-         <widget class="QLabel" name="yearFromLabel">
-          <property name="text">
-           <string>От:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="yearFromSpin">
-          <property name="minimum">
-           <number>1895</number>
-          </property>
-          <property name="maximum">
-           <number>2100</number>
-          </property>
-          <property name="value">
-           <number>1895</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="yearToLabel">
-          <property name="text">
-           <string>До:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="yearUpToSpin">
-          <property name="minimum">
-           <number>1895</number>
-          </property>
-          <property name="maximum">
-           <number>2100</number>
-          </property>
-          <property name="value">
-           <number>2024</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-
-   <item>
-    <widget class="QGroupBox" name="progressGroup">
-     <property name="title">
-      <string>Прогресс просмотра</string>
-     </property>
-     <layout class="QVBoxLayout" name="progressLayout">
-      <item>
-       <widget class="QCheckBox" name="checkBoxProgress">
-        <property name="text">
-         <string>Фильтровать по прогрессу</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="progressRangeLayout">
-        <item>
-         <widget class="QLabel" name="progressFromLabel">
-          <property name="text">
-           <string>От:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinProgressFrom">
-          <property name="suffix">
-           <string>%</string>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="progressToLabel">
-          <property name="text">
-           <string>До:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinProgressUpTo">
-          <property name="suffix">
-           <string>%</string>
-          </property>
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-
-   <item>
-    <layout class="QHBoxLayout" name="buttonsLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveButton">
-       <property name="text">
-        <string>Применить</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="closeButton">
-       <property name="text">
-        <string>Закрыть</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="checkBoxType">
+         <property name="text">
+          <string>Тип:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="typeCombo"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxGenre">
+         <property name="text">
+          <string>Жанр:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="genreCombo"/>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxRating">
+         <property name="text">
+          <string>Рейтинг: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ratingLabel">
+         <property name="text">
+          <string>Рейтинг от:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="ratingSpin">
+         <property name="maximum">
+          <double>10.0</double>
+         </property>
+         <property name="singleStep">
+          <double>0.1</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ratingLabelTo">
+         <property name="text">
+          <string>Рейтинг до:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="ratingSpinTo">
+         <property name="maximum">
+          <double>10.0</double>
+         </property>
+         <property name="value">
+          <double>10.0</double>
+         </property>
+         <property name="singleStep">
+          <double>0.1</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxYears">
+         <property name="text">
+          <string>Годы (с какого по какой):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="yearFromSpin">
+         <property name="minimum">
+          <number>1895</number>
+         </property>
+         <property name="maximum">
+          <number>2100</number>
+         </property>
+         <property name="value">
+          <number>1895</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="yearUpToSpin">
+         <property name="minimum">
+          <number>1895</number>
+         </property>
+         <property name="maximum">
+          <number>2100</number>
+         </property>
+         <property name="value">
+          <number>2010</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBoxProgress">
+         <property name="text">
+          <string>Прогресс:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinProgressFrom"/>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinProgressUpTo">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="buttonsLayout">
+         <item>
+          <widget class="QPushButton" name="saveButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>75</width>
+             <height>75</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Подтвердить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="closeButton">
+           <property name="minimumSize">
+            <size>
+             <width>75</width>
+             <height>75</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Закрыть</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

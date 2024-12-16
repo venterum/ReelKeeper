@@ -4,7 +4,6 @@ import os
 import random
 
 import qdarktheme
-import pywinstyles
 from PyQt6 import uic
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QFontDatabase, QFont
@@ -195,8 +194,7 @@ if __name__ == '__main__':
 
     window = MainWindow()
     dialog = AddMovieDialog()
-    pywinstyles.apply_style(window, "dark")
-    pywinstyles.apply_style(dialog, "dark")
+    
 
     window.show()
     sys.exit(app.exec())

@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         self.addButton.clicked.connect(self.add_movie)
         self.filterButton.clicked.connect(self.open_filter_dialog)
         self.queryLine.textChanged.connect(self.apply_search)
+        self.updateButton.clicked.connect(self.reset_filters)
 
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setWidgetResizable(True)
@@ -65,7 +66,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(title)
 
         if ui_file == "ui/library.ui":
-            self.updateButton.clicked.connect(lambda: self.load_ui("ui/library.ui"))
+            self.updateButton.clicked.connect(self.reset_filters)
             self.addButton.clicked.connect(self.add_movie)
             self.filterButton.clicked.connect(self.open_filter_dialog)
             self.queryLine.textChanged.connect(self.apply_search)
@@ -174,6 +175,11 @@ class MainWindow(QMainWindow):
             self.active_filters = dialog.get_filters()
             self.load_cards(filters=self.active_filters)
 
+    def reset_filters(self):
+        self.active_filters = {}
+        self.queryLine.clear()
+        self.load_cards()
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -197,10 +203,7 @@ if __name__ == '__main__':
     
     app.setStyleSheet(qdarktheme.load_stylesheet())
     app.setWindowIcon(QIcon("icons/film_frames.png"))
-
     window = MainWindow()
     dialog = AddMovieDialog()
-    
-
     window.show()
     sys.exit(app.exec())

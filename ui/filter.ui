@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
-    <height>415</height>
+    <width>385</width>
+    <height>422</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,44 +41,30 @@
        <item>
         <widget class="QCheckBox" name="checkBoxRating">
          <property name="text">
-          <string>Рейтинг: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="ratingLabel">
-         <property name="text">
-          <string>Рейтинг от:</string>
+          <string>Рейтинг (от какого и до какого):</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="ratingSpin">
          <property name="maximum">
-          <double>10.0</double>
+          <double>10.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.1</double>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="ratingLabelTo">
-         <property name="text">
-          <string>Рейтинг до:</string>
+          <double>0.100000000000000</double>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QDoubleSpinBox" name="ratingSpinTo">
          <property name="maximum">
-          <double>10.0</double>
-         </property>
-         <property name="value">
-          <double>10.0</double>
+          <double>10.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.1</double>
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>10.000000000000000</double>
          </property>
         </widget>
        </item>

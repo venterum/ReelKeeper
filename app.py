@@ -8,7 +8,7 @@ from PyQt6 import uic
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QFontDatabase, QFont
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QScrollArea, QDialog
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QScrollArea, QDialog, QPushButton, QMessageBox
 )
 
 from card import MovieCard
@@ -91,30 +91,57 @@ class MainWindow(QMainWindow):
             self.sloganLabel.setText("Добро пожаловать в ReelKeeper!")
 
     def add_movie(self):
-        dialog = AddMovieDialog()
-        if dialog.exec() == QDialog.DialogCode.Accepted:
-            movie_data = dialog.get_data()
-            conn = sqlite3.connect('data/data.sqlite')
-            cursor = conn.cursor()
+        choice_dialog = QDialog(self)
+        choice_dialog.setWindowTitle("Каким способом хотите добавить?")
+        choice_dialog.setMinimumWidth(300)
+        layout = QVBoxLayout(choice_dialog)
+        manual_button = QPushButton("Добавить данные вручную")
+        manual_button.setMinimumHeight(75)
+        kinopoisk_button = QPushButton("Импорт из КиноПоиска")
+        kinopoisk_button.setMinimumHeight(75)
+        
+        layout.addWidget(manual_button)
+        layout.addWidget(kinopoisk_button)
+        
+        def open_manual_dialog():
+            choice_dialog.accept()
+            dialog = AddMovieDialog()
+            if dialog.exec() == QDialog.DialogCode.Accepted:
+                movie_data = dialog.get_data()
+                conn = sqlite3.connect('data/data.sqlite')
+                cursor = conn.cursor()
 
-            cursor.execute(""" 
-                INSERT INTO movies (title, overview, poster, type_id, genre_id, year, director, rating, progress) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (
-                movie_data["title"],
-                movie_data["overview"],
-                movie_data["poster"],
-                movie_data["type_id"],
-                movie_data["genre_id"],
-                movie_data["year"],
-                movie_data["director"],
-                0,  # рейтинг
-                0   # прогресс
-            ))
+                cursor.execute(""" 
+                    INSERT INTO movies (title, overview, poster, type_id, genre_id, year, director, rating, progress) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    movie_data["title"],
+                    movie_data["overview"],
+                    movie_data["poster"],
+                    movie_data["type_id"],
+                    movie_data["genre_id"],
+                    movie_data["year"],
+                    movie_data["director"],
+                    0,  # рейтинг
+                    0   # прогресс
+                ))
 
-            conn.commit()
-            conn.close()
-            self.load_cards()
+                conn.commit()
+                conn.close()
+                self.load_cards()
+                
+        def kinopoisk():
+            QMessageBox.information(
+                self,
+                "В разработке...",
+                "Функция добавления по ссылке из КиноПоиска пока ещё находится в разработке."
+            )
+            choice_dialog.reject()
+        
+        manual_button.clicked.connect(open_manual_dialog)
+        kinopoisk_button.clicked.connect(kinopoisk)
+        
+        choice_dialog.exec()
 
     def load_cards(self, search_query="", filters=None):
         conn = sqlite3.connect('data/data.sqlite')

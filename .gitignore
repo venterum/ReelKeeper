@@ -167,3 +167,5 @@ cython_debug/
 config.py
 data/config.json
 data/data.sqlite
+config.json
+data.sqlite

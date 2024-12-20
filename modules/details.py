@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import (
 class MovieDetailsDialog(QDialog):
     def __init__(self, title):
         super().__init__()
-        uic.loadUi("ui/movie_details.ui", self)
+        uic.loadUi("resources/ui/movie_details.ui", self)
         self.title = title[:-6]
         self.data = None
         self.load_data()

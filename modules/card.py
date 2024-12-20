@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
     QFrame, QDialog, QProgressBar
 )
 
-from details import MovieDetailsDialog
+from .details import MovieDetailsDialog
 
 
 class MovieCard(QFrame):

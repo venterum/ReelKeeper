@@ -8,7 +8,7 @@ from PyQt6 import uic
 class FilterDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        uic.loadUi("ui/filter.ui", self)
+        uic.loadUi("resources/ui/filter.ui", self)
         self.typeCombo.setEnabled(False)
         self.genreCombo.setEnabled(False)
         self.ratingSpin.setEnabled(False)

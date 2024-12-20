@@ -91,12 +91,20 @@ class MovieCard(QFrame):
         details_dialog.exec()
 
     def get_rounded_pixmap(self, pixmap, width, height, radius):
-        scaled_pixmap = pixmap.scaled(width, height, Qt.AspectRatioMode.KeepAspectRatioByExpanding, Qt.TransformationMode.SmoothTransformation)
+        w_ratio = width / pixmap.width()
+        h_ratio = height / pixmap.height()
+        scale_ratio = max(w_ratio, h_ratio)
+        scaled_width = int(pixmap.width() * scale_ratio)
+        scaled_height = int(pixmap.height() * scale_ratio)
+        scaled_pixmap = pixmap.scaled(scaled_width, scaled_height, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        x_offset = (scaled_width - width) // 2
+        y_offset = (scaled_height - height) // 2
+        centered_pixmap = scaled_pixmap.copy(x_offset, y_offset, width, height)
         rounded = QPixmap(width, height)
         rounded.fill(Qt.GlobalColor.transparent)
         painter = QPainter(rounded)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        painter.setBrush(QBrush(scaled_pixmap))
+        painter.setBrush(QBrush(centered_pixmap))
         painter.setPen(Qt.PenStyle.NoPen)
         painter.drawRoundedRect(rounded.rect(), radius, radius)
         painter.end()

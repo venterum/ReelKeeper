@@ -1,5 +1,6 @@
 import requests
 import re
+import sqlite3
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QPushButton, QMessageBox
 from core.settings import load_config
 
@@ -35,6 +36,16 @@ class KinopoiskDialog(QDialog):
     def get_genre_id(self, genres):
         if not genres:
             return 1
+        
+        conn = sqlite3.connect('data/data.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("SELECT genre_id, genre_name FROM genres")
+        db_genres = {name.lower(): id for id, name in cursor.fetchall()}
+        conn.close()
+        for genre in genres:
+            genre_name = genre.get('name', '').lower()
+            if genre_name in db_genres:
+                return db_genres[genre_name]
         return 1
 
     def get_director_name(self, persons):
@@ -55,6 +66,21 @@ class KinopoiskDialog(QDialog):
                         if isinstance(prof, dict) and prof.get("value") == "режиссеры":
                             return person.get("name", "")
         return ""
+
+    def get_content_type(self, data):
+        conn = sqlite3.connect('data/data.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("SELECT type_id, type_name FROM types")
+        content_types = {name.lower(): id for id, name in cursor.fetchall()}
+        conn.close()
+        content_type = content_types.get('сериал', 2) if data.get("isSeries") else content_types.get('фильм', 1)
+        genres = data.get("genres", [])
+        genre_names = [genre.get("name", "").lower() for genre in genres]
+        if "аниме" in genre_names:
+            return content_types.get('аниме', 4)
+        if "мультфильм" in genre_names:
+            return content_types.get('мультфильм', 3)
+        return content_type
 
     def import_movie(self):
         url = self.link_edit.text().strip()
@@ -92,10 +118,7 @@ class KinopoiskDialog(QDialog):
             
             data = response.json()
             
-            content_type = 2 if data.get("isSeries") else 1
-            genres = data.get("genres", [])
-            if any(genre.get("name", "").lower() == "аниме" for genre in genres):
-                content_type = 4
+            content_type = self.get_content_type(data)
             
             persons = data.get("persons", [])
             director = self.get_director_name(persons)

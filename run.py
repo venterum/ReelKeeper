@@ -32,7 +32,7 @@ if __name__ == '__main__':
             app.setFont(QFont(font_family))
     
     config = load_config()
-    qdarktheme.setup_theme(config.get("theme", "auto"))
+    app.setStyleSheet(qdarktheme.load_stylesheet(config.get("theme", "auto")))
     app.setWindowIcon(QIcon(os.path.join(root_path, "resources/icons/film_frames.png")))
     
     window = MainWindow()

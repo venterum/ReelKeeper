@@ -134,7 +134,8 @@ class MainWindow(QMainWindow):
         config["theme"] = selected_theme
         save_config(config)
         
-        qdarktheme.setup_theme(selected_theme)
+        app = QApplication.instance()
+        app.setStyleSheet(qdarktheme.load_stylesheet(config.get("theme", selected_theme)))
 
     def save_api_key(self):
         config = load_config()

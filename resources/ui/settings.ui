@@ -76,7 +76,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../icons/film_frames.png</normaloff>../icons/film_frames.png</iconset>
+               <normaloff>../../../RK2/ReelKeeper/resources/icons/film_frames.png</normaloff>../../../RK2/ReelKeeper/resources/icons/film_frames.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -113,7 +113,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../icons/information.png</normaloff>../icons/information.png</iconset>
+               <normaloff>../../../RK2/ReelKeeper/resources/icons/information.png</normaloff>../../../RK2/ReelKeeper/resources/icons/information.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -141,7 +141,7 @@
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>../icons/cogwheel.png</normaloff>../icons/cogwheel.png</iconset>
+               <normaloff>../../../RK2/ReelKeeper/resources/icons/cogwheel.png</normaloff>../../../RK2/ReelKeeper/resources/icons/cogwheel.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -176,11 +176,16 @@
         <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0">
          <item>
           <layout class="QGridLayout" name="settingsLayout">
-           <item row="0" column="0">
+           <property name="verticalSpacing">
+            <number>12</number>
+           </property>
+           <item row="2" column="0">
             <widget class="QLabel" name="themeLabel">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
               </font>
              </property>
              <property name="text">
@@ -188,12 +193,55 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="5" column="0">
+            <widget class="QLabel" name="apiKeyLabel">
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>false</underline>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string/>
+             </property>
+             <property name="text">
+              <string>API ключ КиноПоиска:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="10" column="0" colspan="2">
+            <widget class="QCheckBox" name="showQuotesCheckBox">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>&quot;Я даю своё добровольное согласие на небольшое искажение исторических фактов.&quot;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="0" colspan="2">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="0">
             <widget class="QComboBox" name="themeComboBox">
              <property name="minimumSize">
               <size>
                <width>200</width>
-               <height>30</height>
+               <height>35</height>
               </size>
              </property>
              <item>
@@ -213,28 +261,24 @@
              </item>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="apiKeyLabel">
+           <item row="6" column="0">
+            <widget class="QLabel" name="apiKeyDesc">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
-               <underline>true</underline>
+               <pointsize>10</pointsize>
               </font>
              </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Получить ключ можно в @kinopoiskdev_bot (Telegram)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
              <property name="text">
-              <string>API ключ Кинопоиска:</string>
+              <string>Данный ключ необходим для корректной работы функции импорта из КиноПоиска. Получить его можно в телеграм: @kinopoiskdev_bot</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="7" column="0">
             <widget class="QLineEdit" name="apiKeyInput">
              <property name="minimumSize">
               <size>
                <width>200</width>
-               <height>30</height>
+               <height>35</height>
               </size>
              </property>
              <property name="echoMode">
@@ -245,20 +289,32 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QCheckBox" name="showQuotesCheckBox">
+           <item row="3" column="0">
+            <widget class="QLabel" name="themeDesc">
              <property name="font">
               <font>
-               <pointsize>12</pointsize>
+               <pointsize>10</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>Показывать цитаты</string>
+              <string>Выберите тему оформления приложения. Примечание: Авто может работать некорректно в заивисмотсти от вашей системы.</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
-            <spacer name="verticalSpacer">
+           <item row="9" column="0">
+            <widget class="QLabel" name="showQuotesDesc">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Хотите знать, что великие деятели прошлого думали о кино и сериалах? Тогда этот параметр для вас. </string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -269,6 +325,34 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+            <widget class="QLabel" name="settingsLabel">
+             <property name="font">
+              <font>
+               <pointsize>40</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Настройки </string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="showQuotesLabel">
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Цитаты великих в интерфейсе</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

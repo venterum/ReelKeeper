@@ -60,11 +60,20 @@ class MovieDetailsDialog(QDialog):
             pixmap = QPixmap()
             pixmap.loadFromData(self.data[2])
             self.posterLabel.setPixmap(self.get_rounded_pixmap(pixmap, 300, 450, 10))
+        
+        font = self.titleEdit.font()
+        font.setPointSize(18)
+        font.setBold(True)
+        self.titleEdit.setFont(font)
+        
         self.titleEdit.setText(self.data[0])
         self.overviewEdit.setPlainText(self.data[1])
+        
         self.ratingSpin.setRange(0.0, 10.0)
         self.ratingSpin.setSingleStep(0.1)
+        self.ratingSpin.setDecimals(1)
         self.ratingSpin.setValue(self.data[7])
+        
         self.progressBar.setValue(self.data[8])
         self.populate_combobox(self.typeCombo, "types", self.data[3])
         self.populate_combobox(self.genreCombo, "genres", self.data[4])

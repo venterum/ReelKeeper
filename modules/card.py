@@ -11,7 +11,7 @@ from .details import MovieDetailsDialog
 
 
 class MovieCard(QFrame):
-    def __init__(self, title, overview, poster, content_type, year, progress, rating, parent=None):
+    def __init__(self, title, overview, poster, content_type, genre, year, progress, rating, parent=None):
         super().__init__(parent)
         self.setFrameShape(QFrame.Shape.Panel)
         self.setFrameShadow(QFrame.Shadow.Raised)
@@ -36,8 +36,8 @@ class MovieCard(QFrame):
 
         v_layout = QVBoxLayout()
 
-        label_type = QLabel(content_type)
-        label_type.setStyleSheet("font-size: 16px; font-style: italic; color: gray;")
+        label_type = QLabel(f'{content_type} ⦁ {genre}')
+        label_type.setStyleSheet("font-size: 16px; color: gray;")
         v_layout.addWidget(label_type)
 
         label_title = QLabel(f"{title}, {year}")
@@ -47,7 +47,7 @@ class MovieCard(QFrame):
         v_layout.addWidget(label_title)
 
         if rating > 0:
-            label_rating = QLabel(f"⭐ {rating:.1f}/10")
+            label_rating = QLabel(f"⭐ {rating:.1f}")
             label_rating.setStyleSheet("font-size: 16px; color: orange;")
             v_layout.addWidget(label_rating)
 

@@ -73,14 +73,17 @@ class KinopoiskDialog(QDialog):
         cursor.execute("SELECT type_id, type_name FROM types")
         content_types = {name.lower(): id for id, name in cursor.fetchall()}
         conn.close()
-        content_type = content_types.get('сериал', 2) if data.get("isSeries") else content_types.get('фильм', 1)
         genres = data.get("genres", [])
         genre_names = [genre.get("name", "").lower() for genre in genres]
-        if "аниме" in genre_names:
-            return content_types.get('аниме', 4)
-        if "мультфильм" in genre_names:
-            return content_types.get('мультфильм', 3)
-        return content_type
+        for genre_name in genre_names:
+            if genre_name in content_types:
+                return content_types[genre_name]
+        if data.get("isSeries"):
+            return content_types.get('сериал', 2)
+        
+        if "series" in url.lower():
+            return content_types.get('сериал', 2)
+        return content_types.get('фильм', 1)
 
     def import_movie(self):
         url = self.link_edit.text().strip()

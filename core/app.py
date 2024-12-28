@@ -267,9 +267,10 @@ class MainWindow(QMainWindow):
         conn = sqlite3.connect('data/data.sqlite')
         cursor = conn.cursor()
         query = """
-            SELECT m.title, m.overview, m.poster, t.type_name, m.year, m.progress, m.rating, m.director
+            SELECT m.title, m.overview, m.poster, t.type_name, g.genre_name, m.year, m.progress, m.rating, m.director
             FROM movies m
             JOIN types t ON m.type_id = t.type_id
+            JOIN genres g ON m.genre_id = g.genre_id
         """
         conditions = []
         params = []
@@ -296,6 +297,8 @@ class MainWindow(QMainWindow):
 
         if conditions:
             query += " WHERE " + " AND ".join(conditions)
+        
+        query += " ORDER BY m.id ASC"
 
         cursor.execute(query, params)
         rows = cursor.fetchall()
@@ -308,7 +311,7 @@ class MainWindow(QMainWindow):
         if filters and "search" in filters:
             search_query = filters["search"].lower()
             for row in rows:
-                title, overview, poster, type_name, year, progress, rating, director = row
+                title, overview, poster, type_name, genre_name, year, progress, rating, director = row
                 if (search_query in title.lower() or 
                     search_query in overview.lower() or 
                     search_query in director.lower() or 
@@ -318,8 +321,8 @@ class MainWindow(QMainWindow):
             filtered_rows = rows
 
         for row in filtered_rows:
-            title, overview, poster, type_name, year, progress, rating, director = row
-            card = MovieCard(title, overview, poster, type_name, year, progress, rating)
+            title, overview, poster, type_name, genre_name, year, progress, rating, director = row
+            card = MovieCard(title, overview, poster, type_name, genre_name, year, progress, rating)
             self.cards_layout.insertWidget(0, card)
 
     def open_filter_dialog(self):

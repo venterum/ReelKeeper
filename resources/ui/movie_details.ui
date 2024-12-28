@@ -6,22 +6,37 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>454</height>
+    <width>900</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Информация</string>
+   <string>Информация о фильме</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,6">
+   <property name="spacing">
+    <number>20</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QVBoxLayout" name="posterLayout">
      <item>
       <widget class="QLabel" name="posterLabel">
        <property name="minimumSize">
         <size>
-         <width>350</width>
-         <height>200</height>
+         <width>300</width>
+         <height>450</height>
         </size>
        </property>
        <property name="alignment">
@@ -30,136 +45,161 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <widget class="QProgressBar" name="progressBar"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="progressButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>75</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Обновить прогресс просмотра</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="detailsLayout">
+     <item>
+      <widget class="QLineEdit" name="titleEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="placeholderText">
+        <string>Название</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="typeGenreLayout">
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Тип:</string>
+        <widget class="QComboBox" name="typeCombo">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>45</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="typeCombo"/>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="titleEdit">
-         <property name="placeholderText">
-          <string>Название фильма</string>
+        <widget class="QComboBox" name="genreCombo">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>45</height>
+          </size>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QTextEdit" name="overviewEdit">
-         <property name="placeholderText">
-          <string>Описание фильма</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Жанр:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="genreCombo"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="ratingLabel">
-         <property name="text">
-          <string>Рейтинг: </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QDoubleSpinBox" name="ratingSpin"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Год:</string>
-         </property>
-        </widget>
-       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="yearRatingLayout">
        <item>
         <widget class="QSpinBox" name="yearSpin">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>45</height>
+          </size>
+         </property>
          <property name="minimum">
           <number>1895</number>
          </property>
          <property name="maximum">
           <number>2100</number>
          </property>
-         <property name="value">
-          <number>2000</number>
-         </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="directorEdit">
-         <property name="placeholderText">
-          <string>Режиссёр</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="progressLabel">
-         <property name="text">
-          <string>Прогресс:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QProgressBar" name="progressBar"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="progressButton">
+        <widget class="QDoubleSpinBox" name="ratingSpin">
          <property name="minimumSize">
           <size>
-           <width>33</width>
-           <height>33</height>
+           <width>0</width>
+           <height>45</height>
+          </size>
+         </property>
+         <property name="prefix">
+          <string>⭐ </string>
+         </property>
+         <property name="maximum">
+          <double>10.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="directorEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="placeholderText">
+        <string>Режиссёр</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="overviewEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="placeholderText">
+        <string>Описание</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="buttonsLayout">
+       <item>
+        <widget class="QPushButton" name="saveButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>75</height>
           </size>
          </property>
          <property name="text">
-          <string>Обновить прогресс просмотра</string>
+          <string>Сохранить</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="buttonsLayout">
-         <item>
-          <widget class="QPushButton" name="saveButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>75</width>
-             <height>75</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Сохранить</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="closeButton">
-           <property name="minimumSize">
-            <size>
-             <width>75</width>
-             <height>75</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Закрыть</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QPushButton" name="closeButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>75</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Закрыть</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

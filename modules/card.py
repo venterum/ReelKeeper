@@ -16,7 +16,12 @@ class MovieCard(QFrame):
         self.setFrameShape(QFrame.Shape.Panel)
         self.setFrameShadow(QFrame.Shadow.Raised)
         self.setLineWidth(2)
-        self.setMaximumSize(16777215, 400)
+        self.setFixedHeight(326)
+        self.setStyleSheet("""
+            QFrame {
+                border-radius: 15px;
+            }
+        """)
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
@@ -60,7 +65,6 @@ class MovieCard(QFrame):
         progress_bar.setValue(progress)
         progress_bar.setTextVisible(True)
         progress_bar.setMaximumWidth(580)
-
         v_layout.addWidget(progress_bar)
 
         buttons_layout = QHBoxLayout()

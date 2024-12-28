@@ -95,7 +95,6 @@ class MainWindow(QMainWindow):
             self.updateButton.clicked.connect(self.reset_filters)
             self.addButton.clicked.connect(self.add_movie)
             self.filterButton.clicked.connect(self.open_filter_dialog)
-            self.queryLine.textChanged.connect(self.apply_search)
             self.scroll_area = QScrollArea(self)
             self.scroll_area.setWidgetResizable(True)
             self.cardsLayout.addWidget(self.scroll_area)
@@ -193,7 +192,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(manual_button)
         layout.addWidget(kinopoisk_button)
         
-        def open_manual_dialog():
+        def manual_dialog():
             choice_dialog.accept()
             dialog = AddMovieDialog()
             if dialog.exec() == QDialog.DialogCode.Accepted:
@@ -260,37 +259,28 @@ class MainWindow(QMainWindow):
                     conn.close()
                     self.load_cards()
         
-        manual_button.clicked.connect(open_manual_dialog)
+        manual_button.clicked.connect(manual_dialog)
         kinopoisk_button.clicked.connect(kinopoisk)
         choice_dialog.exec()
 
-    def load_cards(self, search_query="", filters=None):
+    def load_cards(self, filters=None):
         conn = sqlite3.connect('data/data.sqlite')
         cursor = conn.cursor()
         query = """
-            SELECT m.title, m.overview, m.poster, t.type_name, m.year, m.progress, m.rating
+            SELECT m.title, m.overview, m.poster, t.type_name, m.year, m.progress, m.rating, m.director
             FROM movies m
             JOIN types t ON m.type_id = t.type_id
         """
         conditions = []
         params = []
 
-        if search_query:
-            conditions.append("""(
-                LOWER(m.title) LIKE LOWER(?) OR 
-                LOWER(m.overview) LIKE LOWER(?) OR 
-                LOWER(m.director) LIKE LOWER(?) OR 
-                CAST(m.year AS TEXT) LIKE ?
-            )""")
-            search_pattern = f"%{search_query.lower()}%"
-            params.extend([search_pattern] * 4)
         if filters:
-            if "genre_id" in filters:
-                conditions.append("m.genre_id = ?")
-                params.append(filters["genre_id"])
             if "type_id" in filters:
                 conditions.append("m.type_id = ?")
                 params.append(filters["type_id"])
+            if "genre_id" in filters:
+                conditions.append("m.genre_id = ?")
+                params.append(filters["genre_id"])
             if "years" in filters:
                 year_from, year_to = filters["years"]
                 conditions.append("m.year BETWEEN ? AND ?")
@@ -314,20 +304,37 @@ class MainWindow(QMainWindow):
         for i in reversed(range(self.cards_layout.count())):
             self.cards_layout.itemAt(i).widget().setParent(None)
 
-        for row in rows:
-            title, overview, poster, type_name, year, progress, rating = row
+        filtered_rows = []
+        if filters and "search" in filters:
+            search_query = filters["search"].lower()
+            for row in rows:
+                title, overview, poster, type_name, year, progress, rating, director = row
+                if (search_query in title.lower() or 
+                    search_query in overview.lower() or 
+                    search_query in director.lower() or 
+                    search_query in str(year)):
+                    filtered_rows.append(row)
+        else:
+            filtered_rows = rows
+
+        for row in filtered_rows:
+            title, overview, poster, type_name, year, progress, rating, director = row
             card = MovieCard(title, overview, poster, type_name, year, progress, rating)
             self.cards_layout.insertWidget(0, card)
-
-    def apply_search(self):
-        search_query = self.queryLine.text().strip().lower()
-        self.load_cards(search_query=search_query, filters=self.active_filters)
 
     def open_filter_dialog(self):
         dialog = FilterDialog(self)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             self.active_filters = dialog.get_filters()
             self.load_cards(filters=self.active_filters)
+
+    def apply_search(self):
+        search_query = self.queryLine.text().strip()
+        if search_query:
+            self.active_filters["search"] = search_query
+        elif "search" in self.active_filters:
+            del self.active_filters["search"]
+        self.load_cards(filters=self.active_filters)
 
     def reset_filters(self):
         self.active_filters = {}

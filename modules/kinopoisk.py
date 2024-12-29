@@ -80,9 +80,6 @@ class KinopoiskDialog(QDialog):
                 return content_types[genre_name]
         if data.get("isSeries"):
             return content_types.get('сериал', 2)
-        
-        if "series" in url.lower():
-            return content_types.get('сериал', 2)
         return content_types.get('фильм', 1)
 
     def import_movie(self):

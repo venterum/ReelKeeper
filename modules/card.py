@@ -19,7 +19,7 @@ class MovieCard(QFrame):
         self.setFixedHeight(326)
         self.setStyleSheet("""
             QFrame {
-                border-radius: 15px;
+                border-radius: 16px;
             }
         """)
 

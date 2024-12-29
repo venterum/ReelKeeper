@@ -14,12 +14,12 @@ if __name__ == '__main__':
     import qdarktheme
     
     font_files = [
-        "resources/fonts/Jost-Bold.ttf",
-        "resources/fonts/Jost-BoldItalic.ttf",
-        "resources/fonts/Jost-Italic.ttf",
-        "resources/fonts/Jost-Medium.ttf",
-        "resources/fonts/Jost-MediumItalic.ttf",
-        "resources/fonts/Jost-Regular.ttf",
+        "resources/fonts/TypeSans-Bold.ttf",
+        "resources/fonts/TypeSans-BoldItalic.ttf", 
+        "resources/fonts/TypeSans-Italic.ttf",
+        "resources/fonts/TypeSans-Medium.ttf",
+        "resources/fonts/TypeSans-MediumItalic.ttf",
+        "resources/fonts/TypeSans-Regular.ttf"
     ]
     
     for font_file in font_files:

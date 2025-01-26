@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
 
         self.addButton.clicked.connect(self.add_movie)
         self.filterButton.clicked.connect(self.open_filter_dialog)
-        self.queryLine.textChanged.connect(self.apply_search)
+        self.queryLine.returnPressed.connect(self.apply_search)
         self.updateButton.clicked.connect(self.reset_filters)
 
         self.themeComboBox.currentIndexChanged.connect(self.change_theme)

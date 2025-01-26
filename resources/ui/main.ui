@@ -302,7 +302,7 @@
              </size>
             </property>
             <property name="placeholderText">
-             <string> Чтобы начать поиск, начните вводить текст...</string>
+             <string>Введите запрос и нажмите Enter...</string>
             </property>
            </widget>
           </item>

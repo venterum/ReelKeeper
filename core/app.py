@@ -88,6 +88,8 @@ class MainWindow(QMainWindow):
         
         self.apiKeyInput.setText(config.get("kinopoisk_api_key", ""))
         self.showQuotesCheckBox.setChecked(config.get("show_quotes", True))
+        
+        self.clearLibraryButton.clicked.connect(self.clear_library)
 
     def set_slogan(self):
         config = load_config()
@@ -386,4 +388,54 @@ class MainWindow(QMainWindow):
     def apply_sort(self, sort_order):
         self.current_sort = sort_order
         self.load_cards(filters=self.active_filters)
+        
+    def clear_library(self):
+        from PyQt6.QtWidgets import QMessageBox
+        
+        warning = QMessageBox()
+        warning.setIcon(QMessageBox.Icon.Warning)
+        warning.setWindowTitle("Внимание!")
+        warning.setText("Вы уверены, что хотите очистить библиотеку?")
+        warning.setInformativeText("Это действие удалит ВСЕ карточки из вашей библиотеки НАВСЕГДА!\nОтменить это действие будет невозможно.")
+        warning.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        warning.setDefaultButton(QMessageBox.StandardButton.No)
+        warning.button(QMessageBox.StandardButton.Yes).setText("Да, удалить всё")
+        warning.button(QMessageBox.StandardButton.No).setText("Отмена")
+        warning.button(QMessageBox.StandardButton.Yes).setMinimumWidth(150)
+        warning.button(QMessageBox.StandardButton.No).setMinimumWidth(150)
+        
+        if warning.exec() == QMessageBox.StandardButton.Yes:
+            final_warning = QMessageBox()
+            final_warning.setIcon(QMessageBox.Icon.Critical)
+            final_warning.setWindowTitle("Последнее предупреждение!")
+            final_warning.setText("Вы АБСОЛЮТНО уверены?")
+            final_warning.setInformativeText("Это последнее предупреждение!\nВся ваша коллекция будет удалена без возможности восстановления.\nПродолжить?")
+            final_warning.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            final_warning.setDefaultButton(QMessageBox.StandardButton.No)
+            final_warning.button(QMessageBox.StandardButton.Yes).setText("Да, удалите всё!")
+            final_warning.button(QMessageBox.StandardButton.No).setText("Нет, я передумал")
+            final_warning.button(QMessageBox.StandardButton.Yes).setMinimumWidth(200)
+            final_warning.button(QMessageBox.StandardButton.No).setMinimumWidth(200)
+            
+            if final_warning.exec() == QMessageBox.StandardButton.Yes:
+                try:
+                    conn = sqlite3.connect('data/data.sqlite')
+                    cursor = conn.cursor()
+                    cursor.execute("DELETE FROM movies")
+                    conn.commit()
+                    conn.close()
+                    
+                    self.load_cards()
+                    
+                    QMessageBox.information(
+                        self,
+                        "Успешно",
+                        "Библиотека успешно очищена"
+                    )
+                except Exception as e:
+                    QMessageBox.critical(
+                        self,
+                        "Ошибка",
+                        f"Не удалось очистить библиотеку: {str(e)}"
+                    )
         
